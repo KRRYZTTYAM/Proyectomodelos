@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://krryzttyam.github.io/Proyecto-colaborativo-modelos/modelos/" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Modelos de los datos implementación en python - Proyecto modelos</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Modelos de los datos implementaci\u00f3n en python";
+        var mkdocs_page_input_path = "modelos.md";
+        var mkdocs_page_url = "/Proyecto-colaborativo-modelos/modelos/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Proyecto modelos
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">inicio</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../Contexto/">Contexto</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../datos/">Recopilacion de datos</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Modelos de los datos implementación en python</a>
+    <ul class="current">
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../estadisticas/">Estadisticas descriptivas de los datos</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Proyecto modelos</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Modelos de los datos implementación en python</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h2 id="introduccion">Introducción</h2>
+<p>En este documento se presenta un análisis probabilístico de datos de radiación solar usando Python.</p>
+<h2 id="importacion-de-librerias">Importación de Librerías</h2>
+<p>```python
+import pandas as pd
+import numpy as np
+import scipy.stats as stats
+import statsmodels.api as sm
+import matplotlib.pyplot as plt</p>
+<h1 id="leer-el-archivo-xls">Leer el archivo .xls</h1>
+<p>file_path = '/home/andres/Downloads/Datos 15 de 13_30 a 14_30.xls'
+df = pd.read_excel(file_path)</p>
+<h1 id="extrae-las-columnas-especificas">Extrae las columnas específicas</h1>
+<p>date_hour_column = "Unnamed: 4"
+solar_radiation_column = "Unnamed: 23"</p>
+<h1 id="limpia-el-dataframe-para-que-solo-contenga-las-dos-columnas-deseadas">Limpia el DataFrame para que sólo contenga las dos columnas deseadas</h1>
+<p>data = df[[date_hour_column, solar_radiation_column]].dropna()</p>
+<h1 id="ignorar-los-primeros-dos-valores-de-cada-columna">Ignorar los primeros dos valores de cada columna</h1>
+<p>data = data.iloc[1:]</p>
+<h1 id="convertir-la-columna-de-fecha-y-hora-al-formato-datetime">Convertir la columna de fecha y hora al formato datetime</h1>
+<p>data[date_hour_column] = pd.to_datetime(data[date_hour_column], format='%y/%m/%d %H:%M:%S')</p>
+<h1 id="extraer-la-fecha-y-los-segundos-del-dia">Extraer la fecha y los segundos del día</h1>
+<p>data['Fecha'] = data[date_hour_column].dt.strftime('%y/%m/%d')
+data</p>
+<p>data[date_hour_column] = pd.to_datetime(data[date_hour_column], format='%y/%m/%d %H:%M:%S')</p>
+<h1 id="extraer-la-fecha-y-los-segundos-del-dia_1">Extraer la fecha y los segundos del día</h1>
+<p>data['Fecha'] = data[date_hour_column].dt.strftime('%y/%m/%d')
+data['Segundos del día'] = data[date_hour_column].dt.hour * 3600 + data[date_hour_column].dt.minute * 60 + data[date_hour_column].dt.second</p>
+<p>tiempo = data['Segundos del día'].values.astype(float)  # Asegurar que tiempo sea float
+radiacion_solar = data[solar_radiation_column].values.astype(float)  # Asegurar que radiacion_solar sea float</p>
+<h1 id="calculo-de-la-covarianza">Cálculo de la covarianza</h1>
+<p>covarianza = np.cov(tiempo, radiacion_solar)[0, 1]</p>
+<h1 id="calculo-de-la-media-y-promedio-de-la-radiacion-solar">Cálculo de la media y promedio de la radiación solar</h1>
+<p>media_radiacion_solar = np.mean(radiacion_solar)
+promedio_radiacion_solar = np.average(radiacion_solar)</p>
+<h1 id="calculo-de-la-curtosis">Cálculo de la curtosis</h1>
+<p>curtosis_radiacion_solar = stats.kurtosis(radiacion_solar)</p>
+<h1 id="crear-un-modelo-de-regresion-lineal">Crear un modelo de regresión lineal</h1>
+<p>X = sm.add_constant(tiempo)  # Agregar una columna de unos para el término constante
+model = sm.OLS(radiacion_solar, X).fit()</p>
+<h1 id="resultados-del-modelo">Resultados del modelo</h1>
+<p>summary = model.summary()</p>
+<h1 id="visualizacion-de-resultados">Visualización de resultados</h1>
+<p>plt.figure(figsize=(12, 8))</p>
+<p>plt.subplot(2, 2, 1)
+plt.scatter(tiempo, radiacion_solar, alpha=0.5)
+plt.title('Radiación solar vs. Tiempo')
+plt.xlabel('Segundos del día')
+plt.ylabel('Radiación solar [W/m²]')
+plt.plot(tiempo, model.predict(X), color='red', linewidth=2)</p>
+<h1 id="otros-graficos-y-visualizaciones">Otros gráficos y visualizaciones ...</h1>
+<p>plt.tight_layout()
+plt.show()</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../datos/" class="btn btn-neutral float-left" title="Recopilacion de datos"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../estadisticas/" class="btn btn-neutral float-right" title="Estadisticas descriptivas de los datos">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../datos/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../estadisticas/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
