@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://krryzttyam.github.io/Proyecto-colaborativo-modelos/estadisticas/" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Estadisticas descriptivas de los datos - Proyecto modelos</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Estadisticas descriptivas de los datos";
+        var mkdocs_page_input_path = "estadisticas.md";
+        var mkdocs_page_url = "/Proyecto-colaborativo-modelos/estadisticas/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Proyecto modelos
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">inicio</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../Contexto/">Contexto</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../datos/">Recopilacion de datos</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../modelos/">Modelos de los datos implementación en python</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Estadisticas descriptivas de los datos</a>
+    <ul class="current">
+    </ul>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Proyecto modelos</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Estadisticas descriptivas de los datos</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="datos-obtenidos-apartir-de-los-analisis-antes-decriptos-en-la-seccion-de-codigo">Datos obtenidos apartir de los analisis antes decriptos en la seccion de codigo</h1>
+<h1 id="analisis-de-la-irradiancia-solar-global-ghi">Análisis de la Irradiancia Solar Global (GHI)</h1>
+<h2 id="generacion-del-histograma-de-ghi">Generación del Histograma de GHI</h2>
+<p>En esta sección, nos enfocamos en la creación de un histograma para la variable GHI (Global Horizontal Irradiance). El objetivo de este análisis es visualizar la distribución real de los datos de GHI, lo que nos permitirá, en futuros análisis, definir una función de densidad de probabilidad (PDF) adecuada.</p>
+<h3 id="objetivos">Objetivos</h3>
+<ul>
+<li><strong>Visualización de la Distribución de Datos</strong>: El histograma proporciona una representación gráfica de la distribución de la variable GHI. Esto nos permite observar cómo se distribuyen los valores de irradiancia a lo largo del tiempo.</li>
+<li><strong>Identificación de Valores Clave</strong>: A través del histograma, podemos identificar rangos de valores donde la irradiancia es más frecuente, así como detectar la presencia de valores atípicos o extremos.</li>
+<li><strong>Base para Modelos Probabilísticos</strong>: La comprensión de la distribución de GHI es crucial para definir posteriormente una función de densidad de probabilidad que modele estos datos de manera precisa.</li>
+</ul>
+<h3 id="procedimiento">Procedimiento</h3>
+<ol>
+<li><strong>Cálculo del Histograma</strong>: Se utiliza la variable GHI para generar el histograma. Esto implica agrupar los datos en intervalos (o bins) y contar el número de ocurrencias en cada intervalo.</li>
+<li><strong>Visualización</strong>: El histograma resultante se visualiza para proporcionar una representación clara de la distribución de GHI.</li>
+</ol>
+<h3 id="interpretacion-del-histograma">Interpretación del Histograma</h3>
+<ul>
+<li><strong>Valores Altos y Bajos</strong>: El histograma mostrará intervalos con diferentes frecuencias, indicando los valores altos y bajos de irradiancia. Estos datos son esenciales para entender los patrones de irradiancia solar.</li>
+<li><strong>Valores en Cero</strong>: Es posible observar intervalos con valores en cero, lo que indica periodos sin irradiancia solar, como durante la noche o en condiciones meteorológicas adversas.</li>
+</ul>
+<h3 id="importancia-del-analisis">Importancia del Análisis</h3>
+<p>El análisis de la distribución de GHI mediante histogramas es un paso fundamental en el estudio de la irradiancia solar. La información obtenida permite:</p>
+<ul>
+<li><strong>Mejorar la Eficiencia de Sistemas Solares</strong>: Conocer la distribución de GHI ayuda a optimizar el diseño y la operación de sistemas de energía solar.</li>
+<li><strong>Predicción de Producción de Energía</strong>: La distribución de GHI es un factor clave en los modelos predictivos de producción de energía solar, permitiendo estimaciones más precisas y fiables.</li>
+</ul>
+<p><img alt="histograma" src="../imagenes/histogram.png" /></p>
+<h1 id="analisis-de-distribuciones-de-densidad-de-probabilidad-para-ghi">Análisis de Distribuciones de Densidad de Probabilidad para GHI</h1>
+<p>Se utilizan las cuatro distribuciones de densidad de probabilidad vistas en el curso con el objetivo de observar si alguna de estas toma una forma similar al histograma mencionado anteriormente. Las distribuciones consideradas son: normal, Rayleigh, uniforme y exponencial.</p>
+<h2 id="distribuciones-consideradas">Distribuciones Consideradas</h2>
+<h3 id="distribucion-normal">Distribución Normal</h3>
+<p>Esta distribución es simétrica y se caracteriza por su forma de campana, determinada por su media y desviación estándar.</p>
+<h3 id="distribucion-de-rayleigh">Distribución de Rayleigh</h3>
+<p>Esta distribución es adecuada para datos que representan magnitudes resultantes de componentes vectoriales independientes y normalmente distribuidos.</p>
+<h3 id="distribucion-uniforme">Distribución Uniforme</h3>
+<p>Esta distribución asume que todos los valores dentro de un intervalo específico tienen la misma probabilidad de ocurrencia.</p>
+<h3 id="distribucion-exponencial">Distribución Exponencial</h3>
+<p>Esta distribución modela el tiempo entre eventos en un proceso de Poisson, caracterizada por una tasa constante.</p>
+<p><img alt="comparacion" src="../imagenes/compa.png" /></p>
+<h2 id="procedimiento-de-analisis">Procedimiento de Análisis</h2>
+<p>El análisis consiste en superponer las curvas de estas distribuciones sobre el histograma de los datos de GHI para identificar cuál se ajusta mejor a la distribución observada. Este proceso ayudará a definir una función de densidad de probabilidad que modele los datos de manera precisa y efectiva.</p>
+<p><img alt="distri" src="../imagenes/dis.png" /></p>
+<h2 id="resultados-del-analisis-con-la-distribucion-normal">Resultados del Análisis con la Distribución Normal</h2>
+<p>Al utilizar la distribución normal se llegaron a los siguientes resultados del análisis:</p>
+<p><img alt="tabla" src="../imagenes/tabla.png" /></p>
+<p>Estos resultados indican que la distribución normal puede ser una buena aproximación para modelar los datos de GHI en su rango más común, aunque se debe considerar su limitación en los extremos.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../modelos/" class="btn btn-neutral float-left" title="Modelos de los datos implementación en python"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../modelos/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
