@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://krryzttyam.github.io/Proyecto-colaborativo-modelos/modelos/" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Modelos de los datos implementación en python - Proyecto modelos</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Modelos de los datos implementaci\u00f3n en python";
+        var mkdocs_page_input_path = "modelos.md";
+        var mkdocs_page_url = "/Proyecto-colaborativo-modelos/modelos/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Proyecto modelos
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">inicio</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../Contexto/">Contexto</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../datos/">Recopilacion de datos</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Modelos de los datos implementación en python</a>
+    <ul class="current">
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../estadisticas/">Estadisticas descriptivas de los datos</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Proyecto modelos</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Modelos de los datos implementación en python</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h2 id="introduccion">Introducción</h2>
+<p>En este documento se presenta un análisis probabilístico de datos de radiación solar usando Python.</p>
+<h1 id="tareas-de-procesamiento-de-datos-con-celery">Tareas de Procesamiento de Datos con Celery</h1>
+<p>Este documento describe cómo utilizar Celery para automatizar tareas de procesamiento de datos, incluyendo la obtención de datos de una API, el almacenamiento en una base de datos y el análisis estadístico.</p>
+<h2 id="importacion-de-librerias">Importación de Librerías</h2>
+<p>Importamos las librerías necesarias para manejar tareas de Celery, realizar solicitudes HTTP, procesar datos y realizar análisis estadísticos.</p>
+<h2 id="explicacion-del-planificador-de-tareas">Explicación del Planificador de Tareas</h2>
+<ul>
+<li>
+<p><strong>test-schedule</strong>: Esta tarea ejecuta <code>test_task</code> cada <code>period</code> segundos, obteniendo datos de una API y almacenándolos en la base de datos.</p>
+</li>
+<li>
+<p><strong>test-schedule-task</strong>: Esta tarea ejecuta <code>schedule_task</code> cada 60 minutos, simplemente enviando un aviso de que ha pasado una hora desde el último aviso.</p>
+</li>
+<li>
+<p><strong>test-statistic-task</strong>: Esta tarea ejecuta <code>statistics_task</code> cada <code>1.2 * period</code> segundos, calculando momentos estadísticos de las columnas de datos y almacenándolos en la base de datos.</p>
+</li>
+<li>
+<p><strong>test-plotting-task</strong>: Esta tarea ejecuta <code>plotting_task</code> cada <code>1.4 * period</code> segundos, generando un histograma y comparando diferentes distribuciones de probabilidad de los datos.</p>
+</li>
+</ul>
+<p>```python
+    from celery import Celery
+    from celery.schedules import timedelta
+    from datetime import datetime
+    import requests
+    import json
+    import configparser
+    import numpy as np
+    from scipy import stats
+    from scipy.stats import (kurtosis, skew, norm,
+                            uniform, rayleigh, expon,
+                            kstest, gamma, weibull_min,
+                            lognorm)
+    import pandas as pd
+    import matplotlib.pyplot as plt</p>
+<pre><code>from models import session, GeneralData, PowerData, StatisticalMetrics
+</code></pre>
+<h1 id="datos-de-configuracion">Datos de configuración</h1>
+<p>config = configparser.ConfigParser()
+config.read("pipeline.cfg")
+url = config["api"]["url"]
+token = config["api"]["token"]
+period = int(config["scheduler"]["period"])</p>
+<h1 id="crear-app-de-celery">Crear "app" de Celery</h1>
+<p>app = Celery("tasks", broker="redis://localhost")</p>
+<p>@app.task
+def test_task():
+    response = requests.get(url)
+    data = json.loads(response.text)</p>
+<pre><code>for i in range(8):
+    temp_time = data["estimated_actuals"][i]["period_end"]
+    UTC_timestamp = datetime.fromisoformat(temp_time[:-2])
+    timestamp = UTC_timestamp - timedelta(hours=6)
+
+    if session.query(GeneralData).filter_by(timestamp=timestamp).first():
+        pass
+    else:
+        power_record = PowerData(
+            ghi=data["estimated_actuals"][i]["ghi"],
+            ebh=data["estimated_actuals"][i]["ebh"],
+            dni=data["estimated_actuals"][i]["dni"],
+            dhi=data["estimated_actuals"][i]["dhi"],
+            )
+        session.add(power_record)
+        session.commit()
+
+        general_record = GeneralData(
+            timestamp=timestamp,
+            power_id=power_record.id,
+            cloud_opacity=data["estimated_actuals"][i]["cloud_opacity"],
+            )
+        session.add(general_record)
+        session.commit()
+return "Request de datos e inseción en tabla exitoso!"
+</code></pre>
+<p>@app.task
+def schedule_task():
+    return "¡Ya pasó una hora desde el ultimo aviso!"</p>
+<p>@app.task
+def statistics_task():
+    # Paso 1: Hacer fetch a todas las columnas y asignarlas a listas.
+    sql_obj_temp = session.query(PowerData).all()</p>
+<pre><code>temp_general_ghi = []
+temp_general_ebh = []
+temp_general_dni = []
+temp_general_dhi = []
+
+for row in sql_obj_temp:
+    temp_general_ghi.append(row.ghi)
+    temp_general_ebh.append(row.ebh)
+    temp_general_dni.append(row.dni)
+    temp_general_dhi.append(row.dhi)
+
+momentos = ['media', 'varianza', 'dsv_estandar', 'inclinacion', 'kurtosis']
+idx = 0
+
+while idx &lt; 5:
+    # Calculo de los momentos para cada columna de datos
+    if idx == 0:
+        foo_momentos = np.mean
+    elif idx == 1:
+        foo_momentos = np.var
+    elif idx == 2:
+        foo_momentos = np.std
+    elif idx == 3:
+        foo_momentos = skew
+    elif idx == 4:
+        foo_momentos = kurtosis
+    else:
+        pass
+
+    momento_ghi = foo_momentos(temp_general_ghi)
+    momento_ebh = foo_momentos(temp_general_ebh)
+    momento_dni = foo_momentos(temp_general_dni)
+    momento_dhi = foo_momentos(temp_general_dhi)
+
+    # Revisar si ya se ha ingresado anteriormente momentos a la tabla
+    statistic_obj = (
+        session.query(StatisticalMetrics)
+        .filter_by(metric=momentos[idx])
+        .first()
+        )
+
+    if statistic_obj:
+        statistic_obj.ghi = momento_ghi
+        statistic_obj.ebh = momento_ebh
+        statistic_obj.dni = momento_dni
+        statistic_obj.dhi = momento_dhi
+    else:
+        statistic_obj = StatisticalMetrics(
+                            metric=momentos[idx],
+                            ghi=momento_ghi,
+                            ebh=momento_ebh,
+                            dni=momento_dni,
+                            dhi=momento_dhi,
+                            )
+        session.add(statistic_obj)
+
+    session.commit()
+    idx = idx + 1
+</code></pre>
+<p>@app.task
+def plotting_task():
+    sql_obj_temp = session.query(PowerData).all()
+    temp_general_ghi = []</p>
+<pre><code>for row in sql_obj_temp:
+    temp_general_ghi.append(row.ghi)
+
+series = pd.Series(temp_general_ghi)
+
+plt.hist(series, bins=30, edgecolor='black')
+plt.title('Histogram')
+plt.xlabel('Value')
+plt.ylabel('Frequency')
+plt.savefig('histogram_plot.png')
+plt.clf()
+
+x = np.linspace(series.min(), series.max(), 100)
+
+pdf_normal = norm.pdf(x, series.mean(), series.std())
+pdf_uniform = uniform.pdf(x, series.min(), series.max() - series.min())
+pdf_rayleigh = rayleigh.pdf(x, scale=series.std())
+pdf_expon = expon.pdf(x, scale=series.mean())
+
+plt.plot(x, pdf_normal, 'k', linewidth=2, label='Normal PDF')
+plt.plot(x, pdf_uniform, 'r', linewidth=2, label='Uniform PDF')
+plt.plot(x, pdf_rayleigh, 'b', linewidth=2, label='Rayleigh PDF')
+plt.plot(x, pdf_expon, 'm', linewidth=2, label='Exponential PDF')
+
+plt.legend()
+plt.title('Probability Density Functions')
+plt.xlabel('Value')
+plt.ylabel('Density')
+
+# Save the figure
+plt.savefig('pdf_comparison_plot.png')
+plt.clf()
+
+distributions = [
+    norm, uniform, expon,
+    rayleigh, gamma, weibull_min, lognorm
+    ]
+
+results = {}
+for distribution in distributions:
+    params = distribution.fit(series)
+    ks_stat, p_value = kstest(series, distribution.name, args=params)
+    results[distribution.name] = {
+        'params': params,
+        'ks_stat': ks_stat,
+        'p_value': p_value
+        }
+
+best_fit = min(results.keys(), key=lambda dist: results[dist]['ks_stat'])
+best_params = results[best_fit]['params']
+print(f"Mejor ajuste: {best_fit}")
+print(f"Parámetros: {best_params}")
+
+x = np.linspace(series.min(), series.max(), 100)
+pdf = getattr(stats, best_fit).pdf(x, *best_params)
+
+plt.figure(figsize=(12, 8))
+plt.hist(
+    series, bins=30, density=True,
+    alpha=0.6, color='g', label='Datos'
+    )
+plt.plot(
+    x, pdf, 'r-', linewidth=2,
+    label=f'{best_fit.capitalize()} PDF'
+    )
+plt.legend(loc='best')
+plt.title(
+    'Histograma de los datos y mejor ajuste de la distribución'
+    )
+plt.xlabel('Valor')
+plt.ylabel('Densidad')
+plt.savefig('mejor_ajuste_distribucion.png')
+
+equation = ''
+
+if best_fit == 'norm':
+    mu, sigma = best_params
+    equation = (
+        f"f(x) = (1 / ({sigma} * sqrt(2 * pi))) *"
+        " exp(-0.5 * ((x - {mu}) / {sigma})**2)"
+        )
+elif best_fit == 'expon':
+    loc, scale = best_params
+    equation = f"f(x) = (1 / {scale}) * exp(- (x - {loc}) / {scale})"
+else:
+    equation = "Ecuación no disponible para esta distribución"
+print(f"Ecuación de la distribución {best_fit}:")
+print(equation)
+</code></pre>
+<h1 id="configurar-el-planificador-de-tareas-de-celery">Configurar el planificador de tareas de Celery</h1>
+<p>app.conf.beat_schedule = {
+    "test-schedule": {
+        "task": "tasks.test_task",
+        "schedule": timedelta(seconds=period),
+    },
+    "test-schedule-task": {
+        "task": "tasks.schedule_task",
+        "schedule": timedelta(minutes=60),
+    },
+    "test-statistic-task": {
+        "task": "tasks.statistics_task",
+        "schedule": timedelta(seconds=1.2<em>period),
+    },
+    "test-plotting-task": {
+        "task": "tasks.plotting_task",
+        "schedule": timedelta(seconds=1.4</em>period),
+    },
+}</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../datos/" class="btn btn-neutral float-left" title="Recopilacion de datos"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../estadisticas/" class="btn btn-neutral float-right" title="Estadisticas descriptivas de los datos">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../datos/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../estadisticas/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
